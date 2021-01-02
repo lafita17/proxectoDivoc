@@ -7,10 +7,7 @@
 int main () {
   char c;
   int x;
-  struct unPaciente losPacientes[100];
-  int numPacientes;
-
-
+  
   strype('-',60);
   headline ("DIVOC_", '|',60);
   strype('-',60);
@@ -38,10 +35,10 @@ int main () {
     p_search(inicio);
     break;
   case 'D':
-    p_discharge();
+    p_discharge(inicio);
     break;
   case 'L':
-    p_list();
+    p_list(inicio);
     break;
   case 'X':
     x=yes_or_no("Seguro que quieres salir del programa?\n");

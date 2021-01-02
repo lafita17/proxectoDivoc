@@ -40,6 +40,7 @@ PPACIENTE p_register(PPACIENTE pPac){
 int p_search(PPACIENTE p){
   char dni[10];
   PPACIENTE pAux;
+  int z;
   pAux=p;
   fprintf(stdout,"Search\n\n");
 
@@ -52,27 +53,63 @@ int p_search(PPACIENTE p){
     get_string("DNI",9,9,dni);
     while(pAux!=NULL){
       if(strcmp(pAux->DNI,dni)==0) {
-      printf("Patient data:\n");
-      /*displaypatient*/
+	z=1;}
       pAux=pAux->sig;}
-      else printf("Unknown patient\n");
-    }
-
+    if (z==1){
+      printf("Patient data:\n");
+      /*displaypatient*/}
+    else printf("Unknown patient\n");
+       
   }
 
   return 0;
 }
 
-int p_discharge(){
+int p_discharge(PPACIENTE pac){
+  char dni[10];
+  int u;
+  PPACIENTE pAux;
+  pAux=pac;
   fprintf(stdout,"Discharge\n\n");
+  if (pac==NULL)
+  {
+    printf("No patients yet\n");
+  }
+   else
+  {
+    get_string("DNI",9,9,dni);
+    while(pAux!=NULL){
+      if(strcmp(pAux->DNI,dni)==0) {
+	u=1;}
+      pAux=pAux->sig;
+    }
+    if (u==1){
+    }
+    else printf("Unknown patient\n");
+  }
   return 0;
 }
 
-int p_list(struct unPaciente *tabla, int numero){
+int p_list(PPACIENTE pcc){
   int i;
-  fprintf(stdout,"Tabla de pacientes:\n");
-  for (i=0;i<numero;i++){
-    fprintf(stdout,"%s:%i\n",tabla[i].nombre,tabla[i].edad);
+  PPACIENTE pAux;
+  pAux=pcc;
+  fprintf(stdout,"List\n");
+  if (pcc==NULL)
+  {
+    printf("No patients yet\n");
+  }
+   else
+  {
+    i=get_integer("DATE",1900,2020);
+    fprintf(stdout,"Patients born before %d:\n",i);
+    while (pAux != NULL){
+      if (*pAux->DNI <= i){
+	display_patient(pAux);
+	pAux=pAux->sig;}
+      else
+	pAux=pAux->sig;
+    }
   }
   return 0;
 }
