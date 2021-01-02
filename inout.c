@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "inout.h"
+#include "database.h"
 
 void strype (char s,int cantidad){
   int j;
@@ -54,7 +55,7 @@ void get_string(char *mensaje,int min,int max, char *dir_cadena){
 
 int get_integer(char *mensaje,int min,int max){
   int valor;
-  do {fprintf(stdout,"%s [%i %i]:\n",mensaje,min,max);
+  do {fprintf(stdout,"%s [%i-%i]:\n",mensaje,min,max);
   fscanf(stdin,"%d",&valor);
   if (valor < min){
     continue;}
@@ -63,27 +64,33 @@ int get_integer(char *mensaje,int min,int max){
   }while (((valor<min)||(valor>max))==1);
   return valor;
 }
+
 char get_character(char *mensaje,char *comprobacion){
   char q[60];
   int z;
   z=0;
-  
-  printf(" %s (%s): ",mensaje,comprobacion);
-  scanf("%c", &q);
-
-
-  
-  return q;
+  while (z!=1) {
+    fprintf(stdout," %s (%s):\n",mensaje,comprobacion);
+  fgets(q,sizeof(q),stdin);
+  if (strlen(q)!=2){
+    continue;}
+  else{
+    if(strchr(comprobacion,toupper(*q)) == NULL) {
+    continue;}
+    else z=1;
+  }
+  }
+  return toupper(*q);
   
 }
 
 
-/*void display_patient( struct unPaciente *tabla){
+void display_patient(PPACIENTE tabla){
   fprintf(stdout," >%s;%s;%i;%i;%i;%c\n",tabla->nombre,tabla->DNI,tabla->edad,tabla->fiebre,tabla->tos,tabla->sintoma);
 
   return;
 }
-*/
+
 int verify_DNI(char *cadena){
   int indice,conv;
   char palabra[50] = "TRWAGMYFPDXBNJZSQVHLCKE";
