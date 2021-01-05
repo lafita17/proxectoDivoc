@@ -8,9 +8,9 @@ int main () {
   char c;
   int x;
   
-  strype('-',60);
+  stripe('-',60);
   headline ("DIVOC_", '|',60);
-  strype('-',60);
+  stripe('-',60);
 
   PPACIENTE inicio=NULL;
   PPACIENTE pAux=NULL;
@@ -35,7 +35,8 @@ int main () {
     p_search(inicio);
     break;
   case 'D':
-    p_discharge(inicio);
+    inicio=p_discharge(inicio);
+    pAux=inicio;
     break;
   case 'L':
     p_list(inicio);
@@ -44,7 +45,7 @@ int main () {
     x=yes_or_no("Seguro que quieres salir del programa?\n");
     break;
   case 'P':
-    p_mark();
+    p_mark(inicio);
     break;
   default:
     fprintf(stdout,"Has seleccionado una opcion no valida\n");

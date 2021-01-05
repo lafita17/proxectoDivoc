@@ -1,4 +1,4 @@
-void strype(char,int);
+void stripe(char,int);
 void headline (char[50],char,int);
 int yes_or_no(char[80]);
 void get_string(char*,int,int,char*);

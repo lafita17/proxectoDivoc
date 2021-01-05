@@ -5,7 +5,7 @@
 #include "inout.h"
 #include "database.h"
 
-void strype (char s,int cantidad){
+void stripe (char s,int cantidad){
   int j;
    for(j=0;j<cantidad;j++){
      fprintf(stdout,"%c",s);}
