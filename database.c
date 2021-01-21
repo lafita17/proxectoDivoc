@@ -6,37 +6,43 @@
 #include "database.h"
 PPACIENTE p_register(PPACIENTE pPac){
   int comp;
-
+ printf ("\n");
   printf("Register\n");
   PPACIENTE pAux = (PPACIENTE)malloc(sizeof(PACIENTE));
+  PPACIENTE ultimo = pPac;
+  
 
   get_string("Name",1,24,pAux->nombre);
-  if (pPac!=NULL)
-  {
-    pAux->num=pPac->num+1;
-    pPac->sig=pAux;
-  }
-  else
-  {
-    pAux->num=1;
-    pAux->sig=NULL;
-  }
+
   do
   {
     get_string("DNI",9,9, pAux->DNI);
     comp=verify_DNI(pAux->DNI);
+    if (comp==0){
+      printf("\nInvalid DNI");}
   }
   while(comp==0);
   pAux->edad=get_integer("Date",1900,2020);
-  pAux->fiebre=yes_or_no("Fever?");
-  pAux->tos=yes_or_no("Cough?");
-  pAux->sintoma=get_character("Symptom?", "FSTMN");
-  printf("New patient:");
+  pAux->fiebre=yes_or_no("Fever (y/n):");
+  pAux->tos=yes_or_no("Cough (y/n):");
+  pAux->sintoma=get_character("Symptom", "FSTMN");
+  printf("\nNew patient:\n");
   display_patient(pAux);
   printf("\n");
+  pAux->sig=NULL;
+  if (pPac==NULL)
+  {
+    pPac=pAux;
+    return pPac;
+  }
+  else 
+  {
+    while(ultimo->sig!=NULL) ultimo=ultimo->sig;
+    ultimo->sig=pAux;
 
+  }
 
-  return pAux;
+  return pPac;
 }
 
 int p_search(PPACIENTE p){
@@ -44,11 +50,12 @@ int p_search(PPACIENTE p){
   PPACIENTE pAux;
   int z;
   pAux=p;
-  fprintf(stdout,"Search\n\n");
+   printf ("\n");
+  fprintf(stdout,"Search\n");
 
   if (p==NULL)
   {
-    printf("No patients yet\n");
+    printf("\nNo patients yet\n");
   }
   else
   {
@@ -67,10 +74,10 @@ int p_search(PPACIENTE p){
     }
     if (z==1)
     {
-      printf("Patient data:\n");
+      printf("\nPatient data:\n");
       display_patient(pAux);
     }
-    else printf("Unknown patient\n");
+    else printf("\nUnknown patient\n\n");
        
   }
 
@@ -83,10 +90,11 @@ PPACIENTE p_discharge(PPACIENTE pac){
   PPACIENTE pAux;
   PPACIENTE temp = NULL;  // punteiro a previo a borrar
   pAux=pac;
-  fprintf(stdout,"Discharge\n\n");
+   printf ("\n");
+  fprintf(stdout,"Discharge\n");
   if (pac==NULL)
   {
-    printf("No patients yet\n");
+    printf("\nNo patients yet\n");
   }
   else
   {
@@ -110,6 +118,7 @@ PPACIENTE p_discharge(PPACIENTE pac){
       {
          // é o primeiro así que actualiza o inicio
          pac=pAux->sig;
+
       }
       else
       {
@@ -117,11 +126,11 @@ PPACIENTE p_discharge(PPACIENTE pac){
          temp->sig=pAux->sig;
       }
       free(pAux);
-      printf("Patient deleted\n");
+      printf("\nDischarged patient\n");
     }
     else
     {
-      printf("Unknown patient\n");
+      printf("\nUnknown patient\n\n");
     }
   }
   return pac;
@@ -131,18 +140,19 @@ int p_list(PPACIENTE pcc){
   int i;
   PPACIENTE pAux;
   pAux=pcc;
+   printf ("\n");
   fprintf(stdout,"List\n");
   if (pcc==NULL)
   {
-    printf("No patients yet\n");
+    printf("\nNo patients yet\n");
   }
    else
   {
-    i=get_integer("DATE",1900,2020);
-    fprintf(stdout,"Patients born before %d:\n",i);
+    i=get_integer("Date",1900,2020);
+    fprintf(stdout,"\nPatients born before %d:\n",i);
     while (pAux != NULL)
     {
-      if (*pAux->DNI <= i)
+      if (pAux->edad <= i)
       {
 	      display_patient(pAux);
 	      pAux=pAux->sig;
@@ -157,14 +167,13 @@ int p_list(PPACIENTE pcc){
 int p_mark(PPACIENTE p){
   PPACIENTE pAux;
   pAux=p;
-
-  fprintf(stdout,"Positives\n");
+  fprintf(stdout,"\nPositives\n");
   if (p==NULL)
   {
-    printf("No patients yet\n");
+    printf("\nNo patients yet\n");
   }
   else
-  {
+  { printf("\nPositive patients:\n");
     while(pAux!=NULL)
     {
       if ((pAux->fiebre==0)||(pAux->tos==0)||(pAux->sintoma=='N'))
@@ -174,6 +183,7 @@ int p_mark(PPACIENTE p){
       }
       else 
       {
+       
         display_patient(pAux);
         pAux=pAux->sig;
       }

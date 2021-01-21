@@ -8,6 +8,7 @@
   char sintoma;
   int num;
   struct unPaciente *sig;
+  struct unPaciente *prev;
  };
 typedef struct unPaciente PACIENTE;
 typedef struct unPaciente * PPACIENTE;
